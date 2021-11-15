@@ -23,12 +23,12 @@ logger = logging.getLogger(__name__)
 def about(request):
     context = {}
     template = 'djangoapp/about.html'
-    return render(template)
+    return render(request, template, context)
 
 def contact(request):
     context = {}
     template = 'djangoapp/contact.html'
-    return render(template)
+    return render(request, template, context)
 
 
 
