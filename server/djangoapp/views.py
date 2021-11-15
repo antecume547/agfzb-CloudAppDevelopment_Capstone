@@ -25,7 +25,7 @@ def about(request):
     template = 'djangoapp/about.html'
     return render(template)
 
-def contact(request)
+def contact(request):
     context = {}
     template = 'djangoapp/contact.html'
     return render(template)
