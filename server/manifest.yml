@@ -1,11 +1,11 @@
   applications:
-  - name: djangoapp
+  - name: fastbuycar
     routes:
-      - route: $HOST.$DOMAIN
+      - route: fastbuycar01.apic.eu-gb.mybluemix.net
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: fastbuycar-nginx
     routes:
-      - route: $HOST.$DOMAIN/static
+      - route: fastbuycar01.apic.eu-gb.mybluemix.net/static
     memory: 128M
     buildpack: staticfile_buildpack
