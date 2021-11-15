@@ -32,7 +32,7 @@ def contact(request):
 
 
 
-# Create a `contact` view to return a static contact page
+#  Create a `contact` view to return a static contact page
 #def contact(request):
 
 # Create a `login_request` view to handle sign in request

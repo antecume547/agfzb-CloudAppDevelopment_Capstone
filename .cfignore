@@ -1,0 +1,5 @@
+*.swp
+README.md
+.github/
+.git/
+.gitignore
