@@ -50,6 +50,7 @@ def login_req(request):
                 return render(request, login_templ, context)
         else:
             context['message'] = 'Invalid user input!'
+            context['form'] = form
             return render(request, login_templ, context)
     elif request.method == 'GET':
             context['form'] = LoginForm() 
