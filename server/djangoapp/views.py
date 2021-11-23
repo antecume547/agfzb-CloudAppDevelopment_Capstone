@@ -47,6 +47,7 @@ def login_req(request):
                 login(request, res)
                 return redirect('djangoapp:index')
             else:
+                logger.error('User can NOT  log in!')
                 context['message'] = 'Invalid username or password!'
                 context['form'] = form
                 return render(request, login_templ, context)
