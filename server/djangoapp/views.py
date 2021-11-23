@@ -52,6 +52,7 @@ def login_req(request):
                 context['form'] = form
                 return render(request, login_templ, context)
         else:
+            logger.error('Invalid input!')
             context['message'] = 'Invalid user input!'
             context['form'] = form
             return render(request, login_templ, context)
@@ -88,6 +89,7 @@ def registrate_req(request):
             if not is_user:
                 user = User.objects.create(username=username, first_name=first_name, last_name=last_name, password=password)
                 login(request, user)
+                logger.error('User is created!')
                 return redirect('djangoapp:index')
             else:
                 context['message'] = 'The user already exists'
