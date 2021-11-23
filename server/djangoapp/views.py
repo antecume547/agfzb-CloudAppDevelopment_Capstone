@@ -52,7 +52,7 @@ def login_req(request):
 
 def logout_req(request):
     logout(request)
-    return redierect('djangoapp:index')
+    return redirect('djangoapp:index')
 
 def registrate_req(request):
     context = {}
