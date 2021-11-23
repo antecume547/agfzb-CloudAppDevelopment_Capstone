@@ -33,7 +33,7 @@ def contact(request):
 
 def login_req(request):
     context = {}
-    login_templ = ''
+    login_templ = 'djangoapp/login.html'
 
     if request.method == 'POST':
         user = request.POST['username']
