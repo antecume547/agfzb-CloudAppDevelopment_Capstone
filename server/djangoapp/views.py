@@ -79,6 +79,7 @@ def registrate_req(request):
             is_user = False
             try:
                 User.objects.get(username = username)
+                logger.error('Username exists')
                 is_user = True
             except User.DoesNotExist:
                 logger.error('Real new user!')
