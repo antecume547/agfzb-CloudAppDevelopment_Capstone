@@ -37,16 +37,20 @@ def login_req(request):
     login_templ = 'djangoapp/login.html'
 
     if request.method == 'POST':
-        user = request.POST['username']
-        pw = request.POST['pw']
-        res = authenticate(username = user, password = pw)
-        if res is not None:
-            login(request, res)
-            return redirect('djangoapp:index')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+        user = form.cleaned_data['username']
+        pw = form.cleaned_data['password']
+        res = authenticate(username = user, password = password)
+            if res is not None:
+                login(request, res)
+                return redirect('djangoapp:index')
+            else:
+                context['messages'] = 'Invalid username or password!'
+                return render(request, login_templ, context)
         else:
-            context['messages'] = 'Invalid username or password!'
+            context['message'] = 'Invalid user input!'
             return render(request, login_templ, context)
-    
     elif request.method == 'GET':
             context['form'] = LoginForm() 
             return render(request, login_templ, context)
