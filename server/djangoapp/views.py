@@ -48,7 +48,7 @@ def login_req(request):
             return render(request, login_templ, context)
     
     elif request.method == 'GET':
-            context['form'] = LoginForm()`` 
+            context['form'] = LoginForm() 
             return render(request, login_templ, context)
 
 
