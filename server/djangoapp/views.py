@@ -68,13 +68,13 @@ def registrate_req(request):
             password = form.cleaned_data['password']
             is_user = False
             try:
-                User.object.get(username = username)
+                User.objects.get(username = username)
                 is_user = True
             except User.DoesNotExist:
                 logger.error('Real new user!')
             
             if not is_user:
-                user = User.object.create(username=username, first_name=first_name, last_name=last_name, password=password)
+                user = User.objects.create(username=username, first_name=first_name, last_name=last_name, password=password)
                 login(user)
                 return redirect('djangoapp:index')
             else:
