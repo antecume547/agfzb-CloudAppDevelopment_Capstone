@@ -39,12 +39,12 @@ def login_req(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            user = form.cleaned_data['username']
+            username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            res = authenticate(username = user, password = password)
+            user = authenticate(username=username, password=password)
             if res is not None:
                 logger.error('User can log in!')
-                login(request, res)
+                login(request, user)
                 return redirect('djangoapp:index')
             else:
                 logger.error('User can NOT  log in!')
