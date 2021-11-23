@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
     <body>
-    <!--Add a registration form here -->
+	    <form action="" method='POST'>
+		    {% csrf_token  %}
+		    {{ form.as_table csrf_token  }}
+		    <input type="submit" value="Sign Up">
+	    </form>
     </body>
 </html>

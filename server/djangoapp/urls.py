@@ -15,6 +15,9 @@ path('about/', views.about, name='about'),
     # path for contact us view
 path('contact/', views.contact, name='contact'),
 
+path('login/', views.login_req, name='login'),
+path('logout/', views.logout_req, name='logout'),
+path('registrate/', views.registrate_req, name='registrate'),
     # path for registration
 
     # path for login

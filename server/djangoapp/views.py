@@ -10,6 +10,7 @@ from datetime import datetime
 import logging
 import json
 
+from .forms import SignupForm
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -30,8 +31,58 @@ def contact(request):
     template = 'djangoapp/contact.html'
     return render(request, template, context)
 
+def login_req(request):
+    context = {}
+    login_templ = ''
+
+    if request.method == 'POST':
+        user = request.POST['username']
+        pw = request.POST['pw']
+        res = authenticate(username = user, password = pw)
+        if res is not None:
+            login(request, res)
+            return redirect('djangoapp:index')
+        else:
+            context['messages'] = 'Ivalid username or password!'
+           return render(request, login_templ, context)
+    
+    elif request.method == 'GET':
+            return render(request, login_templ, context)
 
 
+def logout_req(request):
+    logout(request)
+    return redierect('djangoapp:index')
+
+def registrate_req(request):
+    context = {}
+    registration_templ = 'djangoapp/registration.html'
+    if request.method == 'GET':
+        context['form'] = SignupForm()
+    elif request.method == 'POST':
+        form = SignupForm(request.POST) 
+        if form.id_valid():
+            username = request.POST['username']
+            first_name = request.POST['first_name'] 
+            last_name = request.POST['last_name']
+            password = request.POST['pw']
+            is_user = False
+            try:
+                User.object.get(username = username)
+                is_user = True
+            except User.DoesNotExist:
+                logger.error('Real new user!')
+            
+            if not is_user:
+                user = User.object.create(username=username, first_name=first_name, last_name=last_name, password=password)
+                login(user)
+                return redirect('djangoapp:index')
+            else:
+                context['message'] = 'The user already exists'
+                return render(request, registration_templ, context)
+
+    return render(request, registration_templ, context)
+    
 #  Create a `contact` view to return a static contact page
 #def contact(request):
 
