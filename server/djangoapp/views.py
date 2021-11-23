@@ -43,7 +43,7 @@ def login_req(request):
             login(request, res)
             return redirect('djangoapp:index')
         else:
-            context['messages'] = 'Ivalid username or password!'
+            context['messages'] = 'Invalid username or password!'
             return render(request, login_templ, context)
     
     elif request.method == 'GET':
@@ -61,7 +61,7 @@ def registrate_req(request):
         context['form'] = SignupForm()
     elif request.method == 'POST':
         form = SignupForm(request.POST) 
-        if form.id_valid():
+        if form.is_valid():
             username = request.POST['username']
             first_name = request.POST['first_name'] 
             last_name = request.POST['last_name']
