@@ -59,6 +59,7 @@ def registrate_req(request):
     registration_templ = 'djangoapp/registration.html'
     if request.method == 'GET':
         context['form'] = SignupForm()
+        return render(request, registration_templ, context)
     elif request.method == 'POST':
         form = SignupForm(request.POST) 
         if form.is_valid():
@@ -80,8 +81,9 @@ def registrate_req(request):
             else:
                 context['message'] = 'The user already exists'
                 return render(request, registration_templ, context)
-
-    return render(request, registration_templ, context)
+        else:
+            context['form'] = form
+            return render(request, registration_templ, context)
     
 #  Create a `contact` view to return a static contact page
 #def contact(request):
