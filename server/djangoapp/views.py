@@ -44,7 +44,7 @@ def login_req(request):
             return redirect('djangoapp:index')
         else:
             context['messages'] = 'Ivalid username or password!'
-           return render(request, login_templ, context)
+            return render(request, login_templ, context)
     
     elif request.method == 'GET':
             return render(request, login_templ, context)
