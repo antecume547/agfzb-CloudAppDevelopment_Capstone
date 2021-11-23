@@ -43,7 +43,7 @@ def login_req(request):
             password = form.cleaned_data['password']
             res = authenticate(username = user, password = password)
             if res is not None:
-                logger.log('User can log in!')
+                logger.error('User can log in!')
                 login(request, res)
                 return redirect('djangoapp:index')
             else:
