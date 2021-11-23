@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
     <body>
-	    {{ message }}
+	    {{ messages.message }}
 	    <form action="" method='POST' class="form-group">
 		    {% csrf_token  %}
 		    {{ form.as_table }}
