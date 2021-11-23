@@ -62,10 +62,10 @@ def registrate_req(request):
     elif request.method == 'POST':
         form = SignupForm(request.POST) 
         if form.is_valid():
-            username = request.POST['username']
-            first_name = request.POST['first_name'] 
-            last_name = request.POST['last_name']
-            password = request.POST['pw']
+            username = form.cleaned_data['username']
+            first_name = form.cleaned_data['first_name'] 
+            last_name = form.cleaned_data['last_name']
+            password = form.cleaned_data['password']
             is_user = False
             try:
                 User.object.get(username = username)
