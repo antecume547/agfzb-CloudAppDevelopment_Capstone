@@ -11,6 +11,7 @@ import logging
 import json
 
 from .forms import SignupForm
+from .forms import LoginForm
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -47,6 +48,7 @@ def login_req(request):
             return render(request, login_templ, context)
     
     elif request.method == 'GET':
+            context['form'] = LoginForm()`` 
             return render(request, login_templ, context)
 
 
@@ -104,6 +106,8 @@ def registrate_req(request):
 def get_dealerships(request):
     context = {}
     if request.method == "GET":
+        form = LoginForm()
+        context['form'] = form
         return render(request, 'djangoapp/index.html', context)
 
 
