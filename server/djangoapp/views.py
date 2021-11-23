@@ -39,9 +39,9 @@ def login_req(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-        user = form.cleaned_data['username']
-        pw = form.cleaned_data['password']
-        res = authenticate(username = user, password = password)
+            user = form.cleaned_data['username']
+            pw = form.cleaned_data['password']
+            res = authenticate(username = user, password = password)
             if res is not None:
                 login(request, res)
                 return redirect('djangoapp:index')
