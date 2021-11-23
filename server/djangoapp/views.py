@@ -75,7 +75,7 @@ def registrate_req(request):
             
             if not is_user:
                 user = User.objects.create(username=username, first_name=first_name, last_name=last_name, password=password)
-                login(user)
+                login(request, user)
                 return redirect('djangoapp:index')
             else:
                 context['message'] = 'The user already exists'
