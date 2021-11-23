@@ -47,6 +47,7 @@ def login_req(request):
                 return redirect('djangoapp:index')
             else:
                 context['messages'] = 'Invalid username or password!'
+                context['form'] = form
                 return render(request, login_templ, context)
         else:
             context['message'] = 'Invalid user input!'
