@@ -29,6 +29,7 @@
                     <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
                         {% csrf_token %}
 			{{ form.as_ul }}
+		    <input type="submit" class="btn btn-primary" value="Login">
                     </form>
                 </li>
                 {% endif %}
