@@ -5,8 +5,9 @@ from django.core.exceptions import ValidationError
 
 class SignupForm(forms.Form):
     error_message = {
-            'short_password' : 'The pasword must be most than nine character!',
-            'wrong_password_format' : 'The password must contain also letters and numbers!'
+            'short_password' : 'The pasword should contain at least 9 character!',
+            'wrong_password_format_letter' : 'The password should contain also letters!'
+            'wrong_password_format_number' : 'The password should contain also numbers!'
             }
 
     username = forms.CharField(max_length = 30, widget =forms.TextInput(attrs={
@@ -33,18 +34,20 @@ class SignupForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data['password']
         re_patt_number = r"[0-9]+"
-        re_patt_letter = r"[a-zA-Z]"
+        re_patt_letter = r"[a-zA-Z]+"
         
         if len(password) < 9:
             #logger.error('short password')
             raise ValidationError(
                     self.error_message['short_password']
                     )
-        if re.findall(re_patt_number, password) or re.findall(re_patt_letter, password):
-
-            #logger.error('wrong for password')
+        if re.findall(re_patt_number, password)
             raise ValidationError(
-                    self.error_message['wrong_password_format']
+                    self.error_message['wrong_password_format_number']
+                    )
+        if re.findall(re_patt_letter, password):
+            raise ValidationError(
+                    self.error_message['wrong_password_format_letter']
                     )
         #logger.error('Good password')
         return password
