@@ -21,7 +21,7 @@ class SignupForm(forms.Form):
         'placeholder' : 'Last name',
         'class' : 'form-control'
         }))
-    password = forms.CharField(widget = forms.PasswordInput())
+    password = forms.CharField(widget = forms.PasswordInput)
 
     def clean_username(self):
         username = self.cleaned_data['username']
