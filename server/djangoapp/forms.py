@@ -7,8 +7,8 @@ class SignupForm(forms.Form):
     error_message = {
             'username_duplication' : 'The username is already exists!',
             'short_password' : 'The pasword should contain at least 9 character!',
-            'wrong_password_format_letter' : 'The password should contain also letters!',
-            'wrong_password_format_number' : 'The password should contain also numbers!'
+            'wrong_password_format_letter' : 'The password should contain at least one number!',
+            'wrong_password_format_number' : 'The password should contain also at least one letter!'
             }
 
     username = forms.CharField(max_length = 30, widget =forms.TextInput(attrs={
