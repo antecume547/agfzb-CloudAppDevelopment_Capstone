@@ -35,7 +35,7 @@ class SignupForm(forms.Form):
         re_patt_number = r"\D"
         re_patt_letter = r"\W"
         
-        if password.len < 9:
+        if len(password) < 9:
             raise ValidationError(
                     self.error_message['short_password']
                     )
