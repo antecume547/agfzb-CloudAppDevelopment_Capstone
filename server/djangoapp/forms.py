@@ -8,7 +8,7 @@ class SignupForm(forms.Form):
             'username_duplication' : 'The username is already exists!',
             'short_password' : 'The pasword should contain at least 9 character!',
             'wrong_password_format_missing_number' : 'The password should contain at least one number!',
-            'wrong_password_format_missing_letter' : 'The password should contain at least one non numeric character!'
+            'wrong_password_format_missing_letter' : 'The password should contain at least one nonnumeric character!'
             }
 
     username = forms.CharField(max_length = 30, widget =forms.TextInput(attrs={
@@ -57,10 +57,10 @@ class SignupForm(forms.Form):
 
     def save(self, commit=True):
         user = User.objects.create_user(
-                self.cleaned_data['username'],
-                self.cleaned_data['first_name'],
-                self.cleaned_data['last_name'],
-                self.cleaned_data['password']
+                username = self.cleaned_data['username'],
+                first_name = self.cleaned_data['first_name'],
+                last_name = self.cleaned_data['last_name'],
+                password = self.cleaned_data['password']
                 )
         return user
 
