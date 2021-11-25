@@ -5,8 +5,8 @@ from django.core.exceptions import ValidationError
 
 class SignupForm(forms.Form):
     error_message = {
-            'short_password' : '',
-            'wrong_password_format' : ''
+            'short_password' : 'The pasword must be most than nine character!',
+            'wrong_password_format' : 'The password must contain also letters and numbers!'
             }
 
     username = forms.CharField(max_length = 30, widget =forms.TextInput(attrs={
