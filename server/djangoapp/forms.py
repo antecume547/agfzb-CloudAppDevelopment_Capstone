@@ -37,18 +37,18 @@ class SignupForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data['password']
         re_patt_number = r"\d+"
-        re_patt_letter = r" \w+"
+        re_patt_letter = r" \D+"
         
         if len(password) < 9:
             #logger.error('short password')
             raise ValidationError(
                     self.error_message['short_password']
                     )
-        if re.search(re_patt_number, password) is None:
+        if not re.findall(re_patt_number, password):
             raise ValidationError(
                     self.error_message['wrong_password_format_missing_number']
                     )
-        if re.search(re_patt_letter, password) is None:
+        if not re.findall(re_patt_letter, password):
             raise ValidationError(
                     self.error_message['wrong_password_format_missing_letter']
                     )
