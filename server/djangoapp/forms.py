@@ -31,18 +31,18 @@ class SignupForm(forms.Form):
         return username
     
     def clean_password(self):
-        password = self.cleaned_data['password']
-        re_patt_number = r"\D"
-        re_patt_letter = r"\W"
-        
-        if len(password) < 9:
-            raise ValidationError(
-                    self.error_message['short_password']
-                    )
-        if re.findall(re_patt_number, password) or re.findall(re_patt_letter, password):
-            raise ValidationError(
-                    self.error_message['wrong_password_format']
-                    )
+        #password = self.cleaned_data['password']
+        #re_patt_number = r"\D"
+        #re_patt_letter = r"\W"
+        #
+        #if len(password) < 9:
+        #    raise ValidationError(
+        #            self.error_message['short_password']
+        #            )
+        #if re.findall(re_patt_number, password) or re.findall(re_patt_letter, password):
+        #    raise ValidationError(
+        #            self.error_message['wrong_password_format']
+        #            )
         return password
 
     def save(self, commit=True):
