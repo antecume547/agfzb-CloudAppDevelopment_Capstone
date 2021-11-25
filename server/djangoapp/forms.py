@@ -7,8 +7,8 @@ class SignupForm(forms.Form):
     error_message = {
             'username_duplication' : 'The username is already exists!',
             'short_password' : 'The pasword should contain at least 9 character!',
-            'wrong_password_format_letter' : 'The password should contain at least one number!',
-            'wrong_password_format_number' : 'The password should contain also at least one letter!'
+            'wrong_password_format_missing_number' : 'The password should contain at least one number!',
+            'wrong_password_format_missing_letter' : 'The password should contain at least one non numeric character!'
             }
 
     username = forms.CharField(max_length = 30, widget =forms.TextInput(attrs={
@@ -36,21 +36,21 @@ class SignupForm(forms.Form):
     
     def clean_password(self):
         password = self.cleaned_data['password']
-        re_patt_number = r"\W"
-        re_patt_letter = r"\D"
+        re_patt_number = r"\d+"
+        re_patt_letter = r" \D+"
         
         if len(password) < 9:
             #logger.error('short password')
             raise ValidationError(
                     self.error_message['short_password']
                     )
-        if re.findall(re_patt_number, password):
+        if re.search(re_patt_number, password) is None:
             raise ValidationError(
-                    self.error_message['wrong_password_format_number']
+                    self.error_message['wrong_password_format_missing_number']
                     )
-        if re.findall(re_patt_letter, password):
+        if re.search(re_patt_letter, password) is None:
             raise ValidationError(
-                    self.error_message['wrong_password_format_letter']
+                    self.error_message['wrong_password_format_missing_letter']
                     )
         #logger.error('Good password')
         return password
