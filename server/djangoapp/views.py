@@ -76,22 +76,10 @@ def registrate_req(request):
         if form.is_valid():
             is_user = False
             logger.error('form has been valid')
-
-            try:
-                User.objects.get(username = username)
-                logger.error('Username exists')
-                is_user = True
-            except User.DoesNotExist:
-                logger.error('Real new user!')
-            
-            if not is_user:
-                user = form.save()
-                login(request, user)
-                logger.error('User is created!')
-                return redirect('djangoapp:index')
-            else:
-                context['message'] = 'The user already exists'
-                return render(request, registration_templ, context)
+            user = form.save()
+            login(request, user)
+            logger.error('User is created!')
+            return redirect('djangoapp:index')
         else:
             context['form'] = form
             return render(request, registration_templ, context)

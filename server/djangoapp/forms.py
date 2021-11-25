@@ -25,12 +25,11 @@ class SignupForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        try:
-            User.objects.get(username = username)
-        except User.DoesNotExist
+        res = User.objects.filter(username = username)
+        if res.count():
+            raise ValidationError("Username already exists!")
         return password
     
-
     def clean_password(self):
         password = self.cleaned_data['password']
         re_patt_number = r"\D"
