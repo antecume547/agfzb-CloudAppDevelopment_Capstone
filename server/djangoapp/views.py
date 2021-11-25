@@ -75,12 +75,12 @@ def registrate_req(request):
         form = SignupForm(request.POST) 
         if form.is_valid():
             try:
-            is_user = False
-            logger.error('form has been valid')
-            user = form.save()
-            login(request, user)
-            logger.error('User is created!')
-            return redirect('djangoapp:index')
+                is_user = False
+                logger.error('form has been valid')
+                user = form.save()
+                login(request, user)
+                logger.error('User is created!')
+                return redirect('djangoapp:index')
             except ValidationError:
                 logger.error(form.error_message)
         else:
