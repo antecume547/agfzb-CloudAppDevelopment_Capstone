@@ -80,11 +80,13 @@ def registrate_req(request):
                 user = form.save()
                 login(request, user)
                 logger.error('User is created!')
+                messages.success = 'The form was valid, user is registered' 
                 return redirect('djangoapp:index')
-            except ValidationError:
-                logger.error(form.error_message)
+            except e as  ValidationError:
+                logger.error(e, form.error_message)
         else:
             context['form'] = form
+            messages.success = 'The form was not valid' 
             return render(request, registration_templ, context)
     
 #  Create a `contact` view to return a static contact page
