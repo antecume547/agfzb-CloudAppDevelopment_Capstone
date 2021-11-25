@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
+from django.core.exceptions import ValidationError
 # from .models import related models
 # from .restapis import related methods
 from django.contrib.auth import login, logout, authenticate
