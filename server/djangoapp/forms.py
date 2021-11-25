@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 
 class SignupForm(forms.Form):
     error_message = {
+            'username_duplication' : 'The username is already exists!',
             'short_password' : 'The pasword should contain at least 9 character!',
             'wrong_password_format_letter' : 'The password should contain also letters!',
             'wrong_password_format_number' : 'The password should contain also numbers!'
@@ -28,7 +29,9 @@ class SignupForm(forms.Form):
         username = self.cleaned_data['username']
         res = User.objects.filter(username = username)
         if res.count():
-            raise ValidationError("Username already exists!")
+            raise ValidationError(
+                    self.error_message['username_duplication']
+                    )
         return username
     
     def clean_password(self):
@@ -41,7 +44,7 @@ class SignupForm(forms.Form):
             raise ValidationError(
                     self.error_message['short_password']
                     )
-        if re.findall(re_patt_number, password)
+        if re.findall(re_patt_number, password):
             raise ValidationError(
                     self.error_message['wrong_password_format_number']
                     )
