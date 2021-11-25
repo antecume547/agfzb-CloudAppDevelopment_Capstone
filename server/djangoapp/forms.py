@@ -44,11 +44,11 @@ class SignupForm(forms.Form):
             raise ValidationError(
                     self.error_message['short_password']
                     )
-        if re.findall(re_patt_number, password):
+        if re.findall(re_patt_number, password) is None:
             raise ValidationError(
                     self.error_message['wrong_password_format_number']
                     )
-        if re.findall(re_patt_letter, password):
+        if re.findall(re_patt_letter, password) is None:
             raise ValidationError(
                     self.error_message['wrong_password_format_letter']
                     )
