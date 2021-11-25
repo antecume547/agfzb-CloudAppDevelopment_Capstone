@@ -74,11 +74,9 @@ def registrate_req(request):
     elif request.method == 'POST':
         form = SignupForm(request.POST) 
         if form.is_valid():
-            username = form.cleaned_data['username']
-            first_name = form.cleaned_data['first_name'] 
-            last_name = form.cleaned_data['last_name']
-            password = form.cleaned_data['password']
             is_user = False
+            logger.error('form has been valid')
+
             try:
                 User.objects.get(username = username)
                 logger.error('Username exists')
@@ -87,7 +85,7 @@ def registrate_req(request):
                 logger.error('Real new user!')
             
             if not is_user:
-                user = User.objects.create(username=username, first_name=first_name, last_name=last_name, password=password)
+                user = form.save()
                 login(request, user)
                 logger.error('User is created!')
                 return redirect('djangoapp:index')
