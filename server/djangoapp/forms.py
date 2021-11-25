@@ -2,8 +2,6 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-import logging
-logger = logging.getLogger(__name__)
 
 class SignupForm(forms.Form):
     error_message = {
@@ -38,17 +36,17 @@ class SignupForm(forms.Form):
         re_patt_letter = r"\W"
         
         if len(password) < 9:
-            logger.error('short password')
+            #logger.error('short password')
             raise ValidationError(
                     self.error_message['short_password']
                     )
         if re.findall(re_patt_number, password) or re.findall(re_patt_letter, password):
 
-            logger.error('wrong for password')
+            #logger.error('wrong for password')
             raise ValidationError(
                     self.error_message['wrong_password_format']
                     )
-        logger.error('Good password')
+        #logger.error('Good password')
         return password
 
     def save(self, commit=True):
