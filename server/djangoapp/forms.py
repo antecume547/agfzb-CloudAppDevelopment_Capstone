@@ -32,8 +32,8 @@ class SignupForm(forms.Form):
     
     def clean_password(self):
         password = self.cleaned_data['password']
-        re_patt_number = r"\D"
-        re_patt_letter = r"\W"
+        re_patt_number = r"[0-9]+"
+        re_patt_letter = r"[a-zA-Z]"
         
         if len(password) < 9:
             #logger.error('short password')
