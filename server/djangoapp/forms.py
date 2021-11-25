@@ -28,14 +28,14 @@ class SignupForm(forms.Form):
         res = User.objects.filter(username = username)
         if res.count():
             raise ValidationError("Username already exists!")
-        return password
+        return username
     
     def clean_password(self):
         password = self.cleaned_data['password']
         re_patt_number = r"\D"
         re_patt_letter = r"\W"
         
-        if password.length < 9:
+        if password.len < 9:
             raise ValidationError(
                     self.error_message['short_password']
                     )
