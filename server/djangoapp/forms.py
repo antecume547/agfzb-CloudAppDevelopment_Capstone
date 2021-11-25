@@ -52,7 +52,7 @@ class SignupForm(forms.Form):
         return password
 
     def save(self, commit=True):
-        user = User.objects.create(
+        user = User.objects.create_user(
                 self.cleaned_data['username'],
                 self.cleaned_data['first_name'],
                 self.cleaned_data['last_name'],
