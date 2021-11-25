@@ -84,7 +84,7 @@ def registrate_req(request):
                 messages.success = 'The form was valid, user is registered' 
                 return redirect('djangoapp:index')
             except ValidationError as err:
-                logger.error(err)
+                logger.exception(err)
         else:
             context['form'] = form
             messages.success = 'The form was not valid' 
