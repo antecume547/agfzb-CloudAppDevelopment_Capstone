@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealership Review</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+
+</head>
+
+    <body>
+	    <header>
+		    {% block header  %}
+	    <nav class="navbar navbar-light bg-light">
+            <div class="navbar-header">
+		  <a class="navbar-brand" href="{% url 'djangoapp:about' %}">About us</a>
+		  <a class="navbar-brand" href="{% url 'djangoapp:contact' %}">Contact us</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li>
+                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                </li>
+            </ul>
+                {% else %}
+
+		{% if request.path == '/djangoapp/login/' %}
+						<a class="form-control btn btn-link" href="{% url 'djangoapp:registrate' %}">Sign Up</a>
+						{% endif %}
+		{% if request.path == '/djangoapp/registrate/' %}
+		
+                    <a class="btn btn-link" href="{% url 'djangoapp:login' %}">Login</a>
+
+						{% endif %}
+
+		{% if request.path != '/djangoapp/login/' and  request.path != '/djangoapp/registrate/' %}
+                    <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                        {% csrf_token %}
+				<div class="input-group">
+				{{ form.username.errors }}	
+				{{ form.username  }}
+				{{ form.password.errors }}	
+				{{ form.password  }}
+			<input type="submit" class="btn btn-primary" value="Login">
+		
+                    </form>
+						<a class="form-control btn btn-link" href="{% url 'djangoapp:registrate' %}">Sign Up</a>
+		    {% endif %}
+		    {% endif %}
+
+	    </nav>
+    <!--Add a nav bar here -->
+{% if messages %}
+<ul class="alert" style="list-style-type:none">
+    {% for message in messages %}
+    <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock header %}
+	    </header>
+
+{% block content %}
+
+
+{% endblock %}
+    <!--Add a dealer table here -->
+    {% block footer  %}
+
+    {% endblock footer  %}
+
+    </body>
+
+</html>
+
