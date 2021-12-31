@@ -1,9 +1,17 @@
+import os
+from datetime import datetime
 import re
+import json
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-
-
+from .models import  CarModel
+import requests
+from .classes.cloudrequests import CloudRequest
+from .restapis import add_review 
+from dotenv import load_dotenv
+load_dotenv()
+REVIEW_URL = os.environ.get("REVIEW_URL")
 class SignupForm(forms.Form):
     error_message = {
         "username_duplication": "The username already exists!",
@@ -83,3 +91,110 @@ class LoginForm(forms.Form):
         label="Password",
         widget=forms.PasswordInput(attrs={"placeholder": "Your password", "class": "form-control"}),
     )
+def get_CarModel_list_by_dealer_id(dealer_id):
+    car_set = CarModel.objects.filter(dealer_id=dealer_id)
+    car_detail_list =[("default" , "Model-Make-Year")]
+    if car_set.exists() is False:
+        print("Does not exist")
+        tp = ("N/A","N/A")
+        car_detail_list.append(tp)
+        return car_detail_list
+    for car in car_set:
+        print(car.carMake)
+    for i in range(len(car_set)):
+        tp = (i, "-".join([str(car_set[i].name), str(car_set[i].carMake), str(car_set[i].year)]))
+        car_detail_list.append(tp)
+    return car_detail_list 
+
+class ReviewSubmission(forms.Form):
+
+    def __init__(self, *args, dealer_id, **kwargs):
+        self.dealer_id = dealer_id
+        super().__init__(*args, **kwargs)
+        self.fields["car_description"].choices = get_CarModel_list_by_dealer_id(self.dealer_id) 
+
+    review =forms.CharField(
+        label="Review",
+        max_length= 600,
+        required=True,
+        widget=forms.Textarea(
+            attrs={"placeholder": "Your review", "class": "form-control"}
+        ),
+    )
+
+    purchase = forms.BooleanField(
+            required = False,
+            label="Has been purchased the car from this dealership? (select purchased car information if checked)",
+            widget=forms.CheckboxInput(
+                attrs={"class": "form-check-input mx-2 "}
+                ),
+            )
+    car_description = forms.ChoiceField(
+            required = False,
+            choices = [],
+            label = "Select your car:",
+            widget = forms.Select(
+                attrs={"class": "form-select mx-3",
+                    "disabled":"disabled"}
+                )
+            )
+
+    purchase_date = forms.DateField(
+            required = False,
+            label = "Purchase date",
+            widget = forms.DateInput(
+                attrs = {"class":"date-own form-control",
+                    "autocomplete":"off",
+                    "disabled":"disabled"
+                    }
+
+                )
+            )
+
+    def save(self, session_object, cloud_request_instance):
+        purchase_date = None
+        model = None
+        make = None
+        year = None
+        if self.cleaned_data["purchase"] == True:
+            purchase_date = self.cleaned_data["purchase_date"]
+            if ((self.cleaned_data["car_description"] == "default") or
+                 (self.cleaned_data["car_description"] == "N/A") or   (not self.cleaned_data["car_description"])):
+                model = None
+                make = None
+                year = None
+            else:
+                print("+++",self.cleaned_data["car_description"])
+                choice_number = int(self.cleaned_data["car_description"])
+                choiced_value = self.fields["car_description"].choices[choice_number]
+                sp_ls = choiced_value[1].split("-")
+                model = sp_ls[0]
+                make = sp_ls[1]
+                year = sp_ls[2]
+        else:
+            purchase_date = None
+            model = None
+            make = None
+            year = None
+        
+        params = {
+                "dealership" : int(self.dealer_id),
+                "review" : self.cleaned_data["review"],
+                "review_date" : datetime.utcnow().isoformat(),
+                "purchase" : self.cleaned_data["purchase"],
+                "purchase_date" : purchase_date,
+                "car_make" : make, 
+                "car_model" : model,
+                "car_year" : year,
+                }
+        print(params["dealership"])
+        print(params["car_make"])
+        print(params["car_model"])
+        print(params["car_year"])
+        print(params["review"])
+        print(params["review_date"])
+        print(params["purchase"])
+        print(params["purchase_date"])
+        respond = add_review(REVIEW_URL, session_object, cloud_request_instance, params=params)
+        return respond
+
